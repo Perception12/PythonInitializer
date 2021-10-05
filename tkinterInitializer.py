@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 
 
 class Application(tk.Frame):
@@ -71,7 +72,10 @@ class Application(tk.Frame):
         pass
 
     def choose_destination(self):
-        pass
+        self.name = self.fileName.get(1.0, tk.END)
+        self.directory = filedialog.askdirectory(initialdir="/")
+        self.fileDestination.delete('1.0', tk.END)
+        self.fileDestination.insert(tk.END, self.directory + "/" + self.name)
 
 
 if __name__ == '__main__':
