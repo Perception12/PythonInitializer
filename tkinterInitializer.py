@@ -91,7 +91,7 @@ class Application(tk.Frame):
         for imp in self.add_imports:
             code += "import " + imp + "\n"
 
-        for line  in content:
+        for line in content:
             if line == 'root.geometry("300x300")':
                 line = f"root.geometry({self.win_dimension})"
 
@@ -102,8 +102,6 @@ class Application(tk.Frame):
 
         with open(self.destination, 'w') as file:
             file.write(code)
-
-        print("Success!!")
 
 
 if __name__ == '__main__':
