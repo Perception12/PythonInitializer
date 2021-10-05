@@ -8,6 +8,7 @@ class Application(tk.Frame):
         self.master = master
         self.create_widgets()
         self.grid()
+        self.pack()
 
     def create_widgets(self):
         self.inputFrame = tk.LabelFrame(self)
@@ -102,6 +103,27 @@ class Application(tk.Frame):
 
         with open(self.destination, 'w') as file:
             file.write(code)
+
+        self.exit_page()
+
+    def exit_page(self):
+        self.destroy_widget()
+
+        self.label = tk.Label(self, text="File created successfully!!")
+        self.exit = tk.Button(self, text="Exit", command=self.master.destroy)
+
+        self.pack_space(3)
+        self.label.pack(padx=15)
+        self.exit.pack()
+        self.pack_space(3)
+
+    def destroy_widget(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
+    def pack_space(self, n):
+        for _ in range(n):
+            tk.Label(self).pack()
 
 
 if __name__ == '__main__':
