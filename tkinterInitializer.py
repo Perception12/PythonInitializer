@@ -40,7 +40,7 @@ class Application(tk.Frame):
         self.chooseBtn = tk.Button(self.inputFrame, text="...", command=self.choose_destination, pady=1)
 
         # Create Button
-        self.create = tk.Button(self, text="Create", pady=5)
+        self.create = tk.Button(self, text="Create", pady=5, command=self.create)
 
         # Grids
         self.nameLabel.grid(row=0, column=0, columnspan=3)
@@ -72,10 +72,38 @@ class Application(tk.Frame):
         pass
 
     def choose_destination(self):
-        self.name = self.fileName.get(1.0, tk.END)
+        self.name = self.fileName.get(1.0, tk.END).strip()
         self.directory = filedialog.askdirectory(initialdir="/")
         self.fileDestination.delete('1.0', tk.END)
-        self.fileDestination.insert(tk.END, self.directory + "/" + self.name)
+        self.fileDestination.insert(tk.END, self.directory + "/" + self.name + ".py")
+
+    def create(self):
+        self.add_imports = self.additionalImports.get(1.0, tk.END).split()
+        self.win_dimension = self.dimension.get(1.0, tk.END)
+        self.win_title = self.title.get(1.0, tk.END)
+        self.destination = self.fileDestination.get(1.0, tk.END).strip()
+
+        with open("content.txt", 'r') as file:
+            content = file.readlines()
+
+        code = ""
+
+        for imp in self.add_imports:
+            code += "import " + imp + "\n"
+
+        for line  in content:
+            if line == 'root.geometry("300x300")':
+                line = f"root.geometry({self.win_dimension})"
+
+            if line == 'root.title("Application")':
+                line = f'(root.title("{self.win_title}")'
+
+            code += line
+
+        with open(self.destination, 'w') as file:
+            file.write(code)
+
+        print("Success!!")
 
 
 if __name__ == '__main__':
